@@ -44,6 +44,7 @@ if __name__ == '__main__':
     sensitive_engine = SensitiveWordsLibrary(words_root)
     sensitive_words = sensitive_engine.build()
     img_names = os.listdir(img_root)
+    img_names.remove('.DS_Store')
     for img_name in img_names:
         img_path = os.path.join(img_root, img_name)
         processing_engine = ImageProcessing(img_name, img_path)

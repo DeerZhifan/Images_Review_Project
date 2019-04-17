@@ -11,7 +11,9 @@ class MyDataset(Dataset):
 
     def __init__(self, root):
         """获取图片路径"""
-        self.imgs =[os.path.join(root, imgName) for imgName in os.listdir(root)]
+        self.img_names = os.listdir(root)
+        self.img_names.remove('.DS_Store')
+        self.imgs =[os.path.join(root, imgName) for imgName in self.img_names]
 
     def __getitem__(self, index):
         """为图片添加标签"""
