@@ -1,0 +1,68 @@
+Epoch: 0 || train loss: 0.0063 || acc: 0.930233
+Epoch: 0 || val loss: 0.0023 || acc: 0.973000
+
+Epoch: 1 || train loss: 0.0020 || acc: 0.976633
+Epoch: 1 || val loss: 0.0012 || acc: 0.986650
+
+Epoch: 2 || train loss: 0.0011 || acc: 0.986883
+Epoch: 2 || val loss: 0.0012 || acc: 0.986900
+
+Epoch: 3 || train loss: 0.0007 || acc: 0.992267
+Epoch: 3 || val loss: 0.0007 || acc: 0.992500
+
+Epoch: 4 || train loss: 0.0005 || acc: 0.995067
+Epoch: 4 || val loss: 0.0007 || acc: 0.993000
+
+Epoch: 5 || train loss: 0.0004 || acc: 0.996400
+Epoch: 5 || val loss: 0.0007 || acc: 0.993250
+
+Epoch: 6 || train loss: 0.0003 || acc: 0.996850
+Epoch: 6 || val loss: 0.0007 || acc: 0.992750
+
+Epoch: 7 || train loss: 0.0002 || acc: 0.997700
+Epoch: 7 || val loss: 0.0006 || acc: 0.994050
+
+Epoch: 8 || train loss: 0.0003 || acc: 0.996883
+Epoch: 8 || val loss: 0.0008 || acc: 0.992000
+
+Epoch: 9 || train loss: 0.0002 || acc: 0.998233
+Epoch: 9 || val loss: 0.0007 || acc: 0.993700
+
+Epoch: 10 || train loss: 0.0002 || acc: 0.998300
+Epoch: 10 || val loss: 0.0006 || acc: 0.994500
+
+Epoch: 11 || train loss: 0.0001 || acc: 0.998517
+Epoch: 11 || val loss: 0.0006 || acc: 0.994400
+
+Epoch: 12 || train loss: 0.0001 || acc: 0.998783
+Epoch: 12 || val loss: 0.0005 || acc: 0.995250
+
+Epoch: 13 || train loss: 0.0001 || acc: 0.998833
+Epoch: 13 || val loss: 0.0006 || acc: 0.994300
+
+Epoch: 14 || train loss: 0.0001 || acc: 0.998950
+Epoch: 14 || val loss: 0.0006 || acc: 0.994300
+
+Epoch: 15 || train loss: 0.0001 || acc: 0.999167
+Epoch: 15 || val loss: 0.0006 || acc: 0.994900
+
+Epoch: 16 || train loss: 0.0001 || acc: 0.998983
+Epoch: 16 || val loss: 0.0005 || acc: 0.995500
+
+Epoch: 17 || train loss: 0.0001 || acc: 0.999067
+Epoch: 17 || val loss: 0.0005 || acc: 0.994850
+
+Epoch: 18 || train loss: 0.0001 || acc: 0.999117
+Epoch: 18 || val loss: 0.0006 || acc: 0.995150
+
+Epoch: 19 || train loss: nan || acc: 0.681350
+Epoch: 19 || val loss: nan || acc: 0.550000
+
+Training complete in 8h 1m 52s
+
+Best val accuracy: 99.55%
+
+Recall = 99.18% || Precision = 99.53% || F1 = 0.99
+
+resnet18 model accuracy on test dataset is 99.42%
+
