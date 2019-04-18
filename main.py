@@ -46,4 +46,5 @@ if __name__ == '__main__':
     review_engine = Main(imgs_path, imgs_name, model_path, vocabulary_path)
     classified_result, recognized_result = review_engine.review()
     print(classified_result["非配件"], recognized_result)
+    print("test")
 
