@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from dataset import MyDataset
+from classification.dataset import MyDataset
 import os
 import torch
 from torch.autograd import Variable

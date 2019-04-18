@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
-from dataset import MyDataset
-from settings import Settings
+from classification.dataset import MyDataset
+from classification.settings import Settings
 import os
 import time
 import copy

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from image_processing import ImageProcessing
+from recognition.image_processing import ImageProcessing
 import os
 import re
 import pytesseract

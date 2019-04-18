@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from recognition_engine import RecognitionEngine
-from classification_engine import ClassificationEngine
+from recognition.recognition_engine import RecognitionEngine
+from classification.classification_engine import ClassificationEngine
 import os
-from dataset import MyDataset
+from classification.dataset import MyDataset
 from torch.utils.data import DataLoader
-from image_processing import ImageProcessing
+from recognition.image_processing import ImageProcessing
 
 
 class Main():
@@ -37,10 +37,10 @@ class Main():
 
 
 if __name__ == '__main__':
-    imgs_path = '/users/vita/desktop/test'
+    imgs_path = '/users/vita/desktop/test4'
     imgs_name = os.listdir(imgs_path)
-    model_path = 'resnet18.model'
-    vocabulary_path = '/users/vita/desktop/sensitive_vocabulary'
+    model_path = './classification/resnet18.model'
+    vocabulary_path = './recognition/sensitive_vocabulary'
     if '.DS_Store' in imgs_name:
         imgs_name.remove('.DS_Store')
     review_engine = Main(imgs_path, imgs_name, model_path, vocabulary_path)

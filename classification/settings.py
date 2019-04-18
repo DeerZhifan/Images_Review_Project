@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from model import  Model
+from classification.model import  Model
 import torch.nn as nn
 import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
