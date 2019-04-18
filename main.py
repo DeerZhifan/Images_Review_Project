@@ -3,9 +3,7 @@
 from recognition_engine import RecognitionEngine
 from classification_engine import ClassificationEngine
 import os
-import torch
 from dataset import MyDataset
-from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from image_processing import ImageProcessing
 
@@ -45,4 +43,5 @@ if __name__ == '__main__':
         imgs_name.remove('.DS_Store')
     review_engine = Main(imgs_path, imgs_name, model_path, vocabulary_path)
     classified_result, recognized_result = review_engine.review()
+    print(classified_result, recognized_result)
 
