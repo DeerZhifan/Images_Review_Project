@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from sensitive_vocabulary import SensitiveVocabulary
 from image_processing import ImageProcessing
 import os
 import re
@@ -8,12 +7,24 @@ import pytesseract
 
 class RecognitionEngine():
     """敏感信息识别引擎"""
-    def __init__(self, img_name, sub_imgs, sensitive_vocabulary):
+    def __init__(self, img_name, sub_imgs, vocabulary_path):
         """初始化参数"""
         self.img_name = img_name
         self.sub_imgs = sub_imgs
-        self.sensitive_vocabulary = sensitive_vocabulary
-
+        self.vocabulary_path = vocabulary_path
+        
+    def build_vocabulary(self):
+        """建立敏感信息库"""
+        vocabulary = []
+        with open(self.vocabulary_path, 'r') as f:
+            while True:
+                line = f.readline().split('\n')[0]
+                if not line:
+                    break
+                else:
+                    vocabulary.append(line)
+        return vocabulary
+    
     def get_character(self,):
         """提取字符"""
         character = []
@@ -27,18 +38,17 @@ class RecognitionEngine():
 
     def recognizer(self):
         """识别器"""
+        sensitive_vocabulary = self.build_vocabulary()
         character = self.get_character()
         for char in character:
-            if char in self.sensitive_vocabulary:
+            if char in sensitive_vocabulary:
                 return "含敏感信息: {:}".format(char)
-        return "不含敏感信息"
+        return None
 
 
 if __name__ == '__main__':
     imgs_path = '/users/vita/desktop/test4'
     vocabulary_path = '/users/vita/desktop/sensitive_vocabulary'
-    vocabulary_engine = SensitiveVocabulary(vocabulary_path)
-    sensitive_vocabulary = vocabulary_engine.build()
     imgs_name = os.listdir(imgs_path)
     result = {}
     if '.DS_Store' in imgs_name:
@@ -47,6 +57,8 @@ if __name__ == '__main__':
         img_path = os.path.join(imgs_path, img_name)
         processing_engine = ImageProcessing(img_name, img_path)
         sub_imgs = processing_engine.get_tailored_img()
-        recognition_engine = RecognitionEngine(img_name, sub_imgs, sensitive_vocabulary)
-        result[img_name] = recognition_engine.recognizer()
+        recognition_engine = RecognitionEngine(img_name, sub_imgs, vocabulary_path)
+        sensitive_information = recognition_engine.recognizer()
+        if sensitive_information:
+            result[img_name] = sensitive_information
     print(result)

@@ -67,20 +67,10 @@ class ImageProcessing():
         contours, _ = cv2.findContours(inversed_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         return contours
 
-    '''
-    def draw_contours(self):
-        """在原图中绘制轮廓"""
-        flag = 'COLOR'
-        img_original = self.get_image(flag)
-        contours = self.get_contours()
-        cv2.drawContours(img_original, contours, -1, (0, 0, 225), 3)
-        return img_original
-        '''
-
     def get_tailored_img(self):
         """裁剪出可能包含字符的区域"""
-        textimg = {}
-        textimg[self.img_name] = []
+        sub_imgs = {}
+        sub_imgs[self.img_name] = []
         binaryed_img = self.get_binary_image()
         for switch_status in ['open', 'close']:
             contours = self.get_contours(switch_status)
@@ -94,16 +84,16 @@ class ImageProcessing():
                     p_x.append(p[0][1])
                     p_y.append(p[0][0])
                 x, y, x_, y_ = min(p_x), min(p_y), max(p_x), max(p_y)
-                textimg[self.img_name].append(binaryed_img[x:x_, y:y_])
-        return textimg
+                sub_imgs[self.img_name].append(binaryed_img[x:x_, y:y_])
+        return sub_imgs
 
 
 if __name__ == '__main__':
     img_name = '发动机机脚胶（后）3.jpg'
     img_path = '/users/vita/desktop/words/发动机机脚胶（后）3.jpg'
     engine = ImageProcessing(img_name, img_path)
-    textimg = engine.get_tailored_img()
-    for img in textimg[img_name]:
+    sub_imgs = engine.get_tailored_img()
+    for img in sub_imgs[img_name]:
         print(type(img))
         #text = pytesseract.image_to_string(img, lang='chi_sim', config='-psm 6')
         #print(text)
