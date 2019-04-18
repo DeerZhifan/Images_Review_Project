@@ -30,7 +30,9 @@ class Main():
             processing_engine = ImageProcessing(img_name, img_path)
             sub_imgs = processing_engine.get_tailored_img()
             recognition_engine = RecognitionEngine(img_name, sub_imgs, self.vocabulary_path)
-            recognized_result[img_name] = recognition_engine.recognizer()
+            sensitive_information = recognition_engine.recognizer()
+            if sensitive_information:
+                recognized_result[img_name] = recognition_engine.recognizer()
         return classified_result, recognized_result
 
 
@@ -43,5 +45,5 @@ if __name__ == '__main__':
         imgs_name.remove('.DS_Store')
     review_engine = Main(imgs_path, imgs_name, model_path, vocabulary_path)
     classified_result, recognized_result = review_engine.review()
-    print(classified_result, recognized_result)
+    print(classified_result["非配件"], recognized_result)
 
