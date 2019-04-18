@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class SensitiveWordsLibrary():
+class SensitiveVocabulary():
     """敏感信息库"""
     def __init__(self, root):
         """初始化参数"""
@@ -22,6 +22,6 @@ class SensitiveWordsLibrary():
 
 if __name__ == '__main__':
     words_root = '/users/vita/desktop/sensitive_words'
-    sensitive_engine = SensitiveWordsLibrary(words_root)
+    sensitive_engine = SensitiveVocabulary(words_root)
     sensitive_words = sensitive_engine.build()
     print(len(sensitive_words))

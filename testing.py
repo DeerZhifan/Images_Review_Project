@@ -47,6 +47,5 @@ if __name__ == '__main__':
     batch_size = settings.get_batchsize()
     datasets = {x: MyDataset(os.path.join(dataset_path, x)) for x in ['train', 'val', 'test']}
     dataloader = {x: DataLoader(datasets[x], batch_size=batch_size, shuffle=True) for x in ['train', 'val', 'test']}
-    datasetSize = {x: len(datasets[x]) for x in ['train', 'val', 'test']}
     test_engine = Testing(model)
-    test_engine.test(dataloader, gpu, datasetSize, model_name)
+    test_engine.test(dataloader, gpu, model_name)
