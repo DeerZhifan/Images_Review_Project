@@ -3,6 +3,7 @@
 from recognition.recognition_engine import RecognitionEngine
 from classification.classification_engine import ClassificationEngine
 import os
+import time
 from classification.dataset import MyDataset
 from torch.utils.data import DataLoader
 from recognition.image_processing import ImageProcessing
@@ -37,7 +38,8 @@ class Main():
 
 
 if __name__ == '__main__':
-    imgs_path = '/users/vita/desktop/test4'
+    since = time.time()
+    imgs_path = '/users/vita/desktop/test5'
     imgs_name = os.listdir(imgs_path)
     model_path = './classification/resnet18.model'
     vocabulary_path = './recognition/sensitive_vocabulary'
@@ -45,5 +47,9 @@ if __name__ == '__main__':
         imgs_name.remove('.DS_Store')
     review_engine = Main(imgs_path, imgs_name, model_path, vocabulary_path)
     classified_result, recognized_result = review_engine.review()
+    time_elapsed = time.time() - since
+    m, s = divmod(time_elapsed, 60)
+    h, m = divmod(m, 60)
+    print('\nReview {:} images with {:.0f}h {:.0f}m {:.0f}s'.format(len(imgs_name), h, m, s))
     print(classified_result["非配件"], recognized_result)
 
