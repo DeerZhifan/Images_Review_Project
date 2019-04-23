@@ -40,13 +40,14 @@ class ImageProcessing():
         medianblur_img = self.get_medianblur_img()
         opened_img = cv2.morphologyEx(medianblur_img, cv2.MORPH_OPEN, kernel)
         return opened_img
-
+    """
     def get_closed_image(self):
-        """获取闭运算图片"""
+        """"""
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (20, 20))
         medianblur_img = self.get_medianblur_img()
         closed_img = cv2.morphologyEx(medianblur_img, cv2.MORPH_CLOSE, kernel)
         return closed_img
+        """
 
     def get_inversed_img(self, switch_status):
         """黑白反色"""
@@ -72,7 +73,7 @@ class ImageProcessing():
         sub_imgs = {}
         sub_imgs[self.img_name] = []
         binaryed_img = self.get_binary_image()
-        for switch_status in ['open', 'close']:
+        for switch_status in ['open']:
             contours = self.get_contours(switch_status)
             useful_contours = []
             for i in contours:
@@ -89,11 +90,11 @@ class ImageProcessing():
 
 
 if __name__ == '__main__':
-    img_name = '发动机机脚胶（后）3.jpg'
-    img_path = '/users/vita/desktop/words/发动机机脚胶（后）3.jpg'
+    img_name = '中网20.jpg'
+    img_path = '/users/vita/desktop/中网20.jpg'
     engine = ImageProcessing(img_name, img_path)
     sub_imgs = engine.get_tailored_img()
     for img in sub_imgs[img_name]:
         print(type(img))
-        #text = pytesseract.image_to_string(img, lang='chi_sim', config='-psm 6')
-        #print(text)
+        text = pytesseract.image_to_string(img, lang='chi_sim', config='-psm 6')
+        print(text)
