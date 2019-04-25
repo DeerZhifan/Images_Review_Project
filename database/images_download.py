@@ -55,7 +55,7 @@ class ImageDownload:
         """下载引擎"""
         response = requests.get(imageurl)
         if response.status_code == 200:
-            with open("./images/{:}.jpg".format(imageid), "wb") as f:
+            with open("../images/{:}.jpg".format(imageid), "wb") as f:
                 f.write(response.content)
                 f.close()
 
