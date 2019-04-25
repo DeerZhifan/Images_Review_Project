@@ -6,7 +6,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
 
-class ClassificationEngine():
+class ClassificationEngine:
     """图片分类引擎"""
     def __init__(self, imgs_name, model_path):
         """初始化参数"""
@@ -18,21 +18,21 @@ class ClassificationEngine():
         model = torch.load(self.model_path, map_location='cpu')
         model.train(False)
         index = 0
-        result = {"配件": [], "非配件": []}
+        result = {}
         for count, data in enumerate(dataloader):
             inputs, labels = data
             outputs = model(Variable(inputs))
             _, predictions = torch.max(outputs.data, 1)
             if predictions.item() == 0:
-                result["非配件"].append(self.imgs_name[index])
+                result[self.imgs_name[index]] = 0
             else:
-                result["配件"].append(self.imgs_name[index])
+                result[self.imgs_name[index]] = 1
             index += 1
         return result
 
 
 if __name__ == '__main__':
-    imgs_path = '/users/vita/desktop/test2'
+    imgs_path = '../images'
     imgs_name = os.listdir(imgs_path)
     if '.DS_Store' in imgs_name:
         imgs_name.remove('.DS_Store')
@@ -41,4 +41,4 @@ if __name__ == '__main__':
     dataloader = DataLoader(datasets, batch_size=1)
     engine = ClassificationEngine(imgs_name, model_path)
     classified_result = engine.classifier(dataloader)
-    print(classified_result["非配件"])
+    print(classified_result)

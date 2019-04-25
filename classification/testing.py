@@ -8,7 +8,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
 
-class Testing():
+class Testing:
     """在测试集上评估模型"""
     def __init__(self, model):
         self.model = model

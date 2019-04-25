@@ -3,6 +3,7 @@
 import cv2
 import pytesseract
 
+
 class ImageProcessing():
     """图片预处理"""
     def __init__(self, img_name, img_path):
@@ -14,8 +15,12 @@ class ImageProcessing():
         """读取图片"""
         if flag == 'COLOR':
             img = cv2.imread(self.img_path, cv2.IMREAD_COLOR)
+            if img.shape[0] > 1000 and img.shape[1] > 1000:
+                img = cv2.resize(img, (img.shape[1] // 2, img.shape[0] // 2))
         elif flag == 'GRAYSCALE':
             img = cv2.imread(self.img_path, cv2.IMREAD_GRAYSCALE)
+            if img.shape[0] > 1000 and img.shape[1] > 1000:
+                img = cv2.resize(img, (img.shape[1] // 2, img.shape[0] // 2))
         else:
             print('Please choose the right flag: COLOR OR GRAYSCALE.')
             return None
@@ -40,14 +45,13 @@ class ImageProcessing():
         medianblur_img = self.get_medianblur_img()
         opened_img = cv2.morphologyEx(medianblur_img, cv2.MORPH_OPEN, kernel)
         return opened_img
-    """
+
     def get_closed_image(self):
         """"""
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (20, 20))
         medianblur_img = self.get_medianblur_img()
         closed_img = cv2.morphologyEx(medianblur_img, cv2.MORPH_CLOSE, kernel)
         return closed_img
-        """
 
     def get_inversed_img(self, switch_status):
         """黑白反色"""

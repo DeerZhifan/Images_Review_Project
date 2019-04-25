@@ -17,7 +17,7 @@ class RecognitionEngine():
     def build_vocabulary(self):
         """建立敏感信息库"""
         vocabulary = []
-        with open(self.vocabulary_path, 'r') as f:
+        with open(self.vocabulary_path, 'r', encoding="UTF-8") as f:
             while True:
                 line = f.readline().split('\n')[0]
                 if not line:
@@ -30,7 +30,7 @@ class RecognitionEngine():
         """提取字符"""
         character = []
         for sub_img in self.sub_imgs[self.img_name]:
-            text = pytesseract.image_to_string(sub_img, lang='chi_sim', config='-psm 6')
+            text = pytesseract.image_to_string(sub_img, lang='chi_sim', config='--psm 6')
             re_text = re.sub('[^\u4e00-\u9fa5a-zA-Z]+', ' ', text).replace('_', ' ')    # 过滤非中英文字符
             if len(re_text) >= 2:
                 clean_text = re_text.lower().strip().split(' ')
@@ -43,16 +43,16 @@ class RecognitionEngine():
         character = self.get_character()
         for char in character:
             if char in sensitive_vocabulary:
-                return "含敏感信息: {:}".format(char)
+                return 0
         for char in character:
             if char in ''.join(sensitive_vocabulary) and len(char) > 1:
-                return "含敏感信息: {:}".format(char)
-        return None
+                return 0
+        return 1
 
 
 if __name__ == '__main__':
-    imgs_path = '/users/vita/desktop/test3'
-    vocabulary_path = '/users/vita/pycharmprojects/images_review_projects/recognition/sensitive_vocabulary'
+    imgs_path = '../images'
+    vocabulary_path = './sensitive_vocabulary.txt'
     imgs_name = os.listdir(imgs_path)
     result = {}
     result_time = {}
@@ -65,8 +65,7 @@ if __name__ == '__main__':
         sub_imgs = processing_engine.get_tailored_img()
         recognition_engine = RecognitionEngine(img_name, sub_imgs, vocabulary_path)
         sensitive_information = recognition_engine.recognizer()
-        if sensitive_information:
-            result[img_name] = sensitive_information
+        result[img_name] = sensitive_information
         result_time[img_name] = time.time() - since
 
 
