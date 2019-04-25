@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from recognition.image_processing import ImageProcessing
 
 
-class Main():
+class Main:
     """图片审核算法主程序"""
     def __init__(self, imgs_path, imgs_name, model_path, vocabulary_path):
         """初始化参数"""

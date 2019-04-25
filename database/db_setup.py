@@ -12,7 +12,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-class MySql(object):
+class MySql:
     """连接数据库"""
     def __init__(self, db_name, key=None, user=None, password=None, host=None, port=None):
         """初始化数据库连接信息"""
@@ -117,28 +117,34 @@ class CreateTable(MySql):
 
 if __name__ == "__main__":
     # 建表
-    engine = CreateTable(db_name="algorithm", key="dev_algo_mysql")
-    engine.create_table()
+    # engine = CreateTable(db_name="algorithm", key="dev_algo_mysql")
+    # engine.create_table()
     # engine.drop_table()
 
     # 测试插入数据
-    """
+
     engine = MySql(db_name='algorithm', key='dev_algo_mysql')
     model = engine.get_model()
     metadata = engine.get_metadata()
     session = engine.get_session()
     connect = engine.get_connection()
     test_list = []
-    test_dict = {}
-    test_dict["imageId"] = 0
-    test_dict["imageURL"] = "www.facebook.com"
-    test_dict["reviewStatus"] = 0
-    test_dict["reviewResult"] = 0
-    test_dict["createTime"] = datetime.datetime.now()
-    test_dict["updateTime"] = datetime.datetime.now()
-    test_dict["isDeleted"] = 0
-    test_list.append(test_dict)
+    imageurls = ["https://pic.qipeipu.com/uploadpic/16864/6bbbc5305a481857646efff9d4f9b6d7.jpg",
+                 "https://pic.qipeipu.com/uploadpic/210576/3957d7fcf9aeca766907bcad146d2d60.jpg",
+                 "https://pic.qipeipu.com/uploadpic/16861/4a5b06ddabf2c9006bb1ba21f5ade696.jpg",
+                 "https://pic.qipeipu.com/uploadpic/210576/8ca4221d591853da687e925c78c54fef.jpg",
+                 "https://pic.qipeipu.com/uploadpic/210576/64fef0b2e9345b37b8a70af97f769f0c.jpg",]
+    for imageurl in imageurls:
+        test_dict = {}
+        # test_dict["imageId"] = 0
+        test_dict["imageURL"] = imageurl
+        # test_dict["reviewStatus"] = 0
+        # test_dict["reviewResult"] = 0
+        test_dict["createTime"] = datetime.datetime.now()
+        test_dict["updateTime"] = datetime.datetime.now()
+        # test_dict["isDeleted"] = 0
+        test_list.append(test_dict)
     algo_images_review_project = Table("algo_images_review_project", metadata, autoload=True)
     connect.execute(algo_images_review_project.insert(), test_list)
     session.close()
-    """
+
