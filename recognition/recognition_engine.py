@@ -53,6 +53,7 @@ class RecognitionEngine():
 if __name__ == '__main__':
     imgs_path = '../images'
     vocabulary_path = './sensitive_vocabulary.txt'
+    # imgs_path = "/users/vita/desktop/test2"
     imgs_name = os.listdir(imgs_path)
     result = {}
     result_time = {}
