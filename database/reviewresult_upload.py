@@ -19,7 +19,6 @@ class ReviewResultUpload:
         connect = engine.get_connection()
         algo_images_review_project = Table("algo_images_review_project", metadata, autoload=True)
         for imageid, result in self.reviewresult.items():
-
             result_dict = dict()
             result_dict["review_status"] = 1
             result_dict["review_result"] = result
