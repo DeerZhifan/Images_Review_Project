@@ -14,4 +14,6 @@ def get_config():
         config[key] = values
     return config
 
+
 config = get_config()
+

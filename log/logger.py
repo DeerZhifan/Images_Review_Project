@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from algo.setting import config
+from database.setting import config
 
 import os
 import logging

@@ -11,6 +11,6 @@ local_pc_mysql: # 本地数据库
   password: 931231
 
 logger: # 日志
-  log_path:
+  log_path: ./log
   log_name: mylog.log
   logger_name: my_logger
