@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from database.setting import config
+from setting import config
 
 import pymysql
 import requests
