@@ -41,21 +41,23 @@ class ImageDownload:
         """从数据库中获取图片URL"""
         connect = pymysql.connect(db=self.db_name, user=self.user, password=self.password, host=self.host, port=self.port)
         sql = """
-            SELECT imageId, imageURL 
+            SELECT image_id, image_url 
             FROM algo_images_review_project
-            WHERE reviewStatus=0;
+            WHERE review_status=0;
             """
         rawdata = pd.read_sql(sql, connect)
         imageurls = {}
-        for imageid in rawdata["imageId"]:
-            imageurls[imageid] = rawdata["imageURL"][int(imageid)-1]
+        index = 0
+        for imageid in rawdata["image_id"]:
+            imageurls[imageid] = rawdata["image_url"][index]
+            index += 1
         return imageurls
 
     def __download_engine(self, imageid, imageurl):
         """下载引擎"""
         response = requests.get(imageurl)
         if response.status_code == 200:
-            with open("../images/{:}.jpg".format(imageid), "wb") as f:
+            with open("C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images\\{:}.jpg".format(imageid), "wb") as f:
                 f.write(response.content)
                 f.close()
 

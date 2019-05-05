@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from database.images_download import ImageDownload
+from database.reviewresult_upload import ReviewResultUpload
 from recognition.recognition_engine import RecognitionEngine
 from classification.classification_engine import ClassificationEngine
 import os
@@ -41,17 +43,21 @@ class Main:
 
 if __name__ == '__main__':
     since = time.time()
-    imgs_path = './images'
+    download_engine = ImageDownload(db_name="algorithm", key="dev_algo_mysql")
+    download_engine.download()
+    imgs_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images'
     imgs_name = os.listdir(imgs_path)
-    model_path = './classification/resnet18.model'
-    vocabulary_path = './recognition/sensitive_vocabulary.txt'
+    model_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\classification\\resnet18.model'
+    vocabulary_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\recognition\\sensitive_vocabulary.txt'
     if '.DS_Store' in imgs_name:
         imgs_name.remove('.DS_Store')
     review_engine = Main(imgs_path, imgs_name, model_path, vocabulary_path)
-    recognized_result = review_engine.review()
+    reviewresult = review_engine.review()
+    engine = ReviewResultUpload(reviewresult)
+    engine.upload()
     time_elapsed = time.time() - since
     m, s = divmod(time_elapsed, 60)
     h, m = divmod(m, 60)
     print('\nReview {:} images with {:.0f}h {:.0f}m {:.0f}s'.format(len(imgs_name), h, m, s))
-    print(recognized_result)
+    print(reviewresult)
 

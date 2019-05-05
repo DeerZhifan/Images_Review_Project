@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from db_setup import MySql
+
+from database.db_setup import MySql
 
 import datetime
 from sqlalchemy import Table
@@ -32,6 +33,6 @@ class ReviewResultUpload:
 
 
 if __name__ == "__main__":
-    reviewresult = {'1': 1, '2': 0, '3': 1, '4': 0, '5': 1}
+    reviewresult = {'10': 1, '11': 1, '12': 1, '13': 1, '14': 1}
     engine = ReviewResultUpload(reviewresult)
     engine.upload()
