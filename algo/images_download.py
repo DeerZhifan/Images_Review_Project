@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from database.setting import config
+from algo.setting import config
 
 import os
 import pymysql

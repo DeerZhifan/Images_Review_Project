@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from recognition.image_processing import ImageProcessing
+from algo.image_processing import ImageProcessing
 import os
 import re
 import time

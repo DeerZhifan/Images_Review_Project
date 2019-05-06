@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from database.setting import config
+from algo.setting import config
 
 from sqlalchemy import create_engine
 from sqlalchemy import Column, DateTime, func

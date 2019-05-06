@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
-from classification.settings import Settings
-from classification.dataset import MyDataset
+from algo.settings import Settings
+from algo.dataset import MyDataset
 import os
 import torch
 from torch.autograd import Variable

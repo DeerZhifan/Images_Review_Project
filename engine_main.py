@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from database.images_download import ImageDownload
-from database.reviewresult_upload import ReviewResultUpload
-from recognition.image_processing import ImageProcessing
-from recognition.recognition_engine import RecognitionEngine
-from classification.dataset import MyDataset
-from classification.classification_engine import ClassificationEngine
+from algo.images_download import ImageDownload
+from algo.reviewresult_upload import ReviewResultUpload
+from algo.image_processing import ImageProcessing
+from algo.recognition_engine import RecognitionEngine
+from algo.dataset import MyDataset
+from algo.classification_engine import ClassificationEngine
 import os
 from torch.utils.data import DataLoader
 
@@ -62,8 +62,8 @@ if __name__ == '__main__':
     db_name = "algorithm"
     key = "dev_algo_mysql"
     imgs_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images"
-    model_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\classification\\resnet18.model"
-    vocabulary_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\recognition\\sensitive_vocabulary.txt"
+    model_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\resources\\resnet18.model"
+    vocabulary_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\resources\\sensitive_vocabulary.txt"
     review_engine = Main(db_name, key, imgs_path, model_path, vocabulary_path)
     review_engine.review()
 
