@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from database.db_setup import MySql
-
 import datetime
 from sqlalchemy import Table
 
@@ -11,7 +10,7 @@ class ReviewResultUpload:
     def __init__(self, reviewresult):
         """初始化数据库连接信息"""
         self.reviewresult = reviewresult
-        
+
     def upload(self):
         """上传结果"""
         engine = MySql(db_name='algorithm', key='dev_algo_mysql')
@@ -33,6 +32,6 @@ class ReviewResultUpload:
 
 
 if __name__ == "__main__":
-    reviewresult = {'10': 1, '11': 1, '12': 1, '13': 1, '14': 1}
+    reviewresult = {'1': 1, '2': 0, '3': 1, '4': 0, '5': 1}
     engine = ReviewResultUpload(reviewresult)
     engine.upload()

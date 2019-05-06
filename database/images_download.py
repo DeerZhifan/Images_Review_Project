@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from database.setting import config
 
+import os
 import pymysql
 import requests
 import pandas as pd
@@ -10,6 +11,8 @@ class ImageDownload:
     """下载图片"""
     def __init__(self, db_name, key=None, user=None, password=None, host=None, port=None):
         """初始化数据库连接信息"""
+        self.imgs_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images"
+
         self.db_name = db_name
 
         if key is None:
@@ -57,14 +60,15 @@ class ImageDownload:
         """下载引擎"""
         response = requests.get(imageurl)
         if response.status_code == 200:
-            with open("C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images\\{:}.jpg".format(imageid), "wb") as f:
+            with open("{:}\\{:}.jpg".format(self.imgs_path, imageid), "wb") as f:
                 f.write(response.content)
                 f.close()
 
     def download(self):
         """下载图片"""
         imageurls = self.__get_imageurl()
-        # print(imageurls)
+        if not os.path.exists(self.imgs_path):
+            os.makedirs(self.imgs_path)
         for imageid, imageurl in imageurls.items():
             self.__download_engine(imageid, imageurl)
         return None

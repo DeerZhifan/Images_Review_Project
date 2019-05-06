@@ -2,23 +2,40 @@
 
 from database.images_download import ImageDownload
 from database.reviewresult_upload import ReviewResultUpload
+from recognition.image_processing import ImageProcessing
 from recognition.recognition_engine import RecognitionEngine
+from classification.dataset import MyDataset
 from classification.classification_engine import ClassificationEngine
 import os
-import time
-from classification.dataset import MyDataset
 from torch.utils.data import DataLoader
-from recognition.image_processing import ImageProcessing
 
 
 class Main:
     """图片审核算法主程序"""
-    def __init__(self, imgs_path, imgs_name, model_path, vocabulary_path):
+    def __init__(self, db_name, key, imgs_path, model_path, vocabulary_path):
         """初始化参数"""
+        self.db_name = db_name
+        self.key = key
         self.imgs_path = imgs_path
-        self.imgs_name = imgs_name
         self.model_path = model_path
         self.vocabulary_path = vocabulary_path
+        self.image_download()
+        self.imgs_name = os.listdir(imgs_path)
+
+    def image_download(self):
+        """下载图片"""
+        download_engine = ImageDownload(self.db_name, self.key)
+        download_engine.download()
+
+    def result_upload(self, review_result):
+        """将审核结果上传至数据库"""
+        upload_engine = ReviewResultUpload(review_result)
+        upload_engine.upload()
+
+    def images_delete(self):
+        """审核结束后删除images"""
+        for img_name in self.imgs_name:
+            os.remove(os.path.join(self.imgs_path, img_name))
 
     def review(self):
         """审核器"""
@@ -26,38 +43,30 @@ class Main:
         dataloader = DataLoader(datasets, batch_size=1)
         classification_engine = ClassificationEngine(self.imgs_name, self.model_path)
         classified_result = classification_engine.classifier(dataloader)
-        recognized_result = {}
-        for img_name, review_result in classified_result.items():
+        review_result = {}
+        for img_name, result in classified_result.items():
             imageid = img_name.split(".")[0]
-            if review_result == 0:
-                recognized_result[imageid] = review_result
+            if result == 0:
+                review_result[imageid] = result
             else:
                 img_path = os.path.join(self.imgs_path, img_name)
                 processing_engine = ImageProcessing(img_name, img_path)
                 sub_imgs = processing_engine.get_tailored_img()
                 recognition_engine = RecognitionEngine(img_name, sub_imgs, self.vocabulary_path)
-                sensitive_information = recognition_engine.recognizer()
-                recognized_result[imageid] = sensitive_information
-        return recognized_result
+                review_result[imageid] = recognition_engine.recognizer()
+        self.result_upload(review_result)
+        self.images_delete()
 
 
 if __name__ == '__main__':
-    since = time.time()
-    download_engine = ImageDownload(db_name="algorithm", key="dev_algo_mysql")
-    download_engine.download()
-    imgs_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images'
-    imgs_name = os.listdir(imgs_path)
-    model_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\classification\\resnet18.model'
-    vocabulary_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\recognition\\sensitive_vocabulary.txt'
-    if '.DS_Store' in imgs_name:
-        imgs_name.remove('.DS_Store')
-    review_engine = Main(imgs_path, imgs_name, model_path, vocabulary_path)
-    reviewresult = review_engine.review()
-    engine = ReviewResultUpload(reviewresult)
-    engine.upload()
-    time_elapsed = time.time() - since
-    m, s = divmod(time_elapsed, 60)
-    h, m = divmod(m, 60)
-    print('\nReview {:} images with {:.0f}h {:.0f}m {:.0f}s'.format(len(imgs_name), h, m, s))
-    print(reviewresult)
+    db_name = "algorithm"
+    key = "dev_algo_mysql"
+    imgs_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images"
+    model_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\classification\\resnet18.model"
+    vocabulary_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\recognition\\sensitive_vocabulary.txt"
+    review_engine = Main(db_name, key, imgs_path, model_path, vocabulary_path)
+    review_engine.review()
+
+
+
 

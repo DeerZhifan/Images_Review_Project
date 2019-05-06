@@ -2,7 +2,8 @@
 from database.setting import config
 
 from sqlalchemy import create_engine
-from sqlalchemy import Column, String, Integer, DateTime, Boolean, func, DATETIME
+from sqlalchemy import Column, DateTime, func
+from sqlalchemy.dialects.mysql import VARCHAR, INTEGER, TINYINT
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import MetaData
@@ -92,13 +93,13 @@ class CreateTable(MySql):
     def algo_images_review_project(self):
         """图片审核表设计"""
         algo_images_review_project = Table("algo_images_review_project", self.metadata,
-                                           Column("image_id", Integer, primary_key=True, autoincrement=True, comment="图片ID"),
-                                           Column("image_url", String(100), nullable=False, comment="图片URL"),
-                                           Column("review_status", Boolean, nullable=False, default=0, comment="图片审核状态：0未审核，1已审核"),
-                                           Column("review_result", Boolean, nullable=False, default=0, comment="图片审核结果：0不合规，1合规"),
+                                           Column("image_id", INTEGER, primary_key=True, autoincrement=True, comment="图片ID"),
+                                           Column("image_url", VARCHAR(200), nullable=False, comment="图片URL"),
+                                           Column("review_status", TINYINT(1), nullable=False, server_default="0", comment="图片审核状态：0未审核，1已审核"),
+                                           Column("review_result", TINYINT(1), nullable=False, server_default="0", comment="图片审核结果：0不合规，1合规"),
                                            Column("create_time", DateTime, server_default=func.now(), comment="创建时间"),
-                                           Column("update_time", DateTime, server_default=func.now(), onupdate=func.now(), comment="更新时间"),
-                                           Column("is_deleted", Boolean, nullable=False, default=0, comment="删除标识: 0未删除，1删除"))
+                                           Column("update_time", DateTime, server_default=func.now(), server_onupdate=func.now(), comment="更新时间"),
+                                           Column("is_deleted", TINYINT(1), nullable=False, server_default="0", comment="删除标识: 0未删除，1删除"))
         return algo_images_review_project
 
     def create_table(self):
@@ -135,13 +136,7 @@ if __name__ == "__main__":
                  "https://pic.qipeipu.com/uploadpic/210576/64fef0b2e9345b37b8a70af97f769f0c.jpg",]
     for imageurl in imageurls:
         test_dict = {}
-        # test_dict["imageId"] = 0
         test_dict["image_url"] = imageurl
-        # test_dict["reviewStatus"] = 0
-        # test_dict["reviewResult"] = 0
-        # test_dict["create_time"] = datetime.datetime.now()
-        # test_dict["update_time"] = datetime.datetime.now()
-        # test_dict["isDeleted"] = 0
         test_list.append(test_dict)
     algo_images_review_project = Table("algo_images_review_project", metadata, autoload=True)
     connect.execute(algo_images_review_project.insert(), test_list)
