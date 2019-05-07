@@ -4,7 +4,7 @@ import cv2
 import pytesseract
 
 
-class ImageProcessing():
+class ImageProcessing(object):
     """图片预处理"""
     def __init__(self, img_name, img_path):
         """初始化"""

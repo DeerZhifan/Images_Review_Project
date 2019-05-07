@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from algo.setting import config
+from algo.setting import pyconfig
+from algo.setting import local_config
 
 import os
 import pymysql
@@ -7,42 +8,46 @@ import requests
 import pandas as pd
 
 
-class ImageDownload:
+class ImageDownload(object):
     """下载图片"""
-    def __init__(self, db_name, key=None, user=None, password=None, host=None, port=None):
+    def __init__(self, key=None, database=None, user=None, password=None, host=None, port=None):
         """初始化数据库连接信息"""
-        self.imgs_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images"
-
-        self.db_name = db_name
+        parent_path = os.path.dirname(os.path.dirname(__file__))
+        self.imgs_path = os.path.join(parent_path, local_config["images_path"])
 
         if key is None:
-            self.key = "dev_algo_mysql"
+            self.key = "algo_mysql"
         else:
             self.key = key
 
+        if database is None:
+            self.database = pyconfig[self.key]['database']
+        else:
+            self.database = database
+
         if user is None:
-            self.user = config[self.key]['user']
+            self.user = pyconfig[self.key]['user']
         else:
             self.user = user
 
         if password is None:
-            self.password = config[self.key]['password']
+            self.password = pyconfig[self.key]['password']
         else:
             self.password = password
 
         if host is None:
-            self.host = config[self.key]['host']
+            self.host = pyconfig[self.key]['host']
         else:
             self.host = host
 
         if port is None:
-            self.port = config[self.key]['port']
+            self.port = pyconfig[self.key]['port']
         else:
             self.port = port
 
     def __get_imageurl(self):
         """从数据库中获取图片URL"""
-        connect = pymysql.connect(db=self.db_name, user=self.user, password=self.password, host=self.host, port=self.port)
+        connect = pymysql.connect(database=self.database, user=self.user, password=self.password, host=self.host, port=self.port)
         sql = """
             SELECT image_id, image_url 
             FROM algo_images_review_project
@@ -60,7 +65,7 @@ class ImageDownload:
         """下载引擎"""
         response = requests.get(imageurl)
         if response.status_code == 200:
-            with open("{:}\\{:}.jpg".format(self.imgs_path, imageid), "wb") as f:
+            with open("{:}/{:}.jpg".format(self.imgs_path, imageid), "wb") as f:
                 f.write(response.content)
                 f.close()
 
@@ -75,5 +80,5 @@ class ImageDownload:
 
 
 if __name__ == "__main__":
-    download_engine = ImageDownload(db_name="algorithm", key="dev_algo_mysql")
+    download_engine = ImageDownload(key="algo_mysql")
     download_engine.download()

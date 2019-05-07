@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from algo.setting import config
+from algo.setting import pyconfig
 
 from sqlalchemy import create_engine
 from sqlalchemy import Column, DateTime, func
@@ -12,41 +12,44 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-class MySql:
+class MySql(object):
     """连接数据库"""
-    def __init__(self, db_name, key=None, user=None, password=None, host=None, port=None):
+    def __init__(self, key=None, database=None, user=None, password=None, host=None, port=None):
         """初始化数据库连接信息"""
-        db_url = "mysql+pymysql://{user}:{password}@{host}:{port}/{db_name}?charset=utf8mb4"
-
-        self.db_name = db_name
+        db_url = "mysql+pymysql://{user}:{password}@{host}:{port}/{database}?charset=utf8mb4"
 
         if key is None:
-            self.key = "dev_algo_mysql"
+            self.key = "algo_mysql"
         else:
             self.key = key
 
+        if database is None:
+            self.database = pyconfig[self.key]['database']
+        else:
+            self.database = database
+
         if user is None:
-            self.user = config[self.key]['user']
+            self.user = pyconfig[self.key]['user']
         else:
             self.user = user
 
         if password is None:
-            self.password = config[self.key]['password']
+            self.password = pyconfig[self.key]['password']
         else:
             self.password = password
 
         if host is None:
-            self.host = config[self.key]['host']
+            self.host = pyconfig[self.key]['host']
         else:
             self.host = host
 
         if port is None:
-            self.port = config[self.key]['port']
+            self.port = pyconfig[self.key]['port']
         else:
             self.port = port
 
         self.db_url = db_url.format(user=self.user, password=self.password, host=self.host, port=self.port,
-                                    db_name=self.db_name)
+                                    database=self.database)
 
     def get_engine(self):
         """建立数据库连接"""
@@ -85,9 +88,9 @@ class MySql:
 
 class CreateTable(MySql):
     """建立记录图片审核状态的数据表"""
-    def __init__(self, db_name, key=None, user=None, password=None, host=None, port=None):
+    def __init__(self, key=None, database=None, user=None, password=None, host=None, port=None):
         """初始化"""
-        super(CreateTable, self).__init__(db_name=db_name, key=key, user=user, password=password, host=host, port=port)
+        super(CreateTable, self).__init__(key=key, database=database, user=user, password=password, host=host, port=port)
         self.metadata = self.get_metadata()
 
     def algo_images_review_project(self):
@@ -117,13 +120,13 @@ class CreateTable(MySql):
 
 if __name__ == "__main__":
     # 建表
-    engine = CreateTable(db_name="algorithm", key="dev_algo_mysql")
+    engine = CreateTable(key="algo_mysql")
     engine.create_table()
     # engine.drop_table()
 
     # 测试插入数据
 
-    engine = MySql(db_name='algorithm', key='dev_algo_mysql')
+    engine = MySql(key='algo_mysql')
     model = engine.get_model()
     metadata = engine.get_metadata()
     session = engine.get_session()

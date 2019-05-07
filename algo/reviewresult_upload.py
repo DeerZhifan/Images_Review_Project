@@ -5,7 +5,7 @@ import datetime
 from sqlalchemy import Table
 
 
-class ReviewResultUpload:
+class ReviewResultUpload(object):
     """上传图片审核结果"""
     def __init__(self, reviewresult):
         """初始化数据库连接信息"""
@@ -13,7 +13,7 @@ class ReviewResultUpload:
 
     def upload(self):
         """上传结果"""
-        engine = MySql(db_name='algorithm', key='dev_algo_mysql')
+        engine = MySql(key='algo_mysql')
         metadata = engine.get_metadata()
         session = engine.get_session()
         connect = engine.get_connection()

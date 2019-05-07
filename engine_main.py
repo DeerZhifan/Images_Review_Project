@@ -1,44 +1,56 @@
 # -*- coding: utf-8 -*-
 
+from algo.setting import local_config
 from algo.images_download import ImageDownload
 from algo.reviewresult_upload import ReviewResultUpload
 from algo.image_processing import ImageProcessing
 from algo.recognition_engine import RecognitionEngine
 from algo.dataset import MyDataset
 from algo.classification_engine import ClassificationEngine
+from algo.logger import log
 import os
 from torch.utils.data import DataLoader
 
 
-class Main:
+class Main(object):
     """图片审核算法主程序"""
-    def __init__(self, db_name, key, imgs_path, model_path, vocabulary_path):
+    def __init__(self, key):
         """初始化参数"""
-        self.db_name = db_name
+        log.info("图片审核算法开始运行......")
+        log.info("初始化图片路径、分类模型路径及敏感词汇库路径......")
         self.key = key
-        self.imgs_path = imgs_path
-        self.model_path = model_path
-        self.vocabulary_path = vocabulary_path
+        current_path = os.path.dirname(__file__)
+        self.imgs_path = os.path.join(current_path, local_config["images_path"])
+        self.model_path = os.path.join(current_path, local_config["model_path"])
+        self.vocabulary_path = os.path.join(current_path, local_config["vocalbulary_path"])
+        log.info("初始化完毕！")
         self.image_download()
-        self.imgs_name = os.listdir(imgs_path)
+        self.imgs_name = os.listdir(self.imgs_path)
 
     def image_download(self):
         """下载图片"""
-        download_engine = ImageDownload(self.db_name, self.key)
+        log.info("从数据库中下载待审核图片......")
+        download_engine = ImageDownload(self.key)
         download_engine.download()
+        log.info("下载完毕！")
 
     def result_upload(self, review_result):
         """将审核结果上传至数据库"""
+        log.info("将审核结果上传至数据库中......")
         upload_engine = ReviewResultUpload(review_result)
         upload_engine.upload()
+        log.info("上传完毕！")
 
     def images_delete(self):
         """审核结束后删除images"""
+        log.info("删除已审核图片......")
         for img_name in self.imgs_name:
             os.remove(os.path.join(self.imgs_path, img_name))
+        log.info("删除完毕！")
 
     def review(self):
         """审核器"""
+        log.info("审核开始......")
         datasets = MyDataset(self.imgs_path)
         dataloader = DataLoader(datasets, batch_size=1)
         classification_engine = ClassificationEngine(self.imgs_name, self.model_path)
@@ -54,18 +66,17 @@ class Main:
                 sub_imgs = processing_engine.get_tailored_img()
                 recognition_engine = RecognitionEngine(img_name, sub_imgs, self.vocabulary_path)
                 review_result[imageid] = recognition_engine.recognizer()
+        log.info("审核结束！")
         self.result_upload(review_result)
         self.images_delete()
+        log.info("图片审核算法执行完毕！")
 
 
 if __name__ == '__main__':
-    db_name = "algorithm"
-    key = "dev_algo_mysql"
-    imgs_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images"
-    model_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\resources\\resnet18.model"
-    vocabulary_path = "C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\resources\\sensitive_vocabulary.txt"
-    review_engine = Main(db_name, key, imgs_path, model_path, vocabulary_path)
+    review_engine = Main(key="algo_mysql")
     review_engine.review()
+
+
 
 
 

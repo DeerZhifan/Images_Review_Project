@@ -1,0 +1,11 @@
+# -*- coding: utf-8 -*-
+# 日志信息
+logger: # 日志
+  log_path: /home/logs/btr-algorithm-python/imagesreview
+  log_name: mylog.log
+  logger_name: my_logger
+
+# 文件信息
+images_path: images
+model_path: resources/resnet18.model
+vocalbulary_path: resources/sensitive_vocabulary.txt

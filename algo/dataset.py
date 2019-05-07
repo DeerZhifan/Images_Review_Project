@@ -44,8 +44,3 @@ if __name__ == '__main__':
     datasets = {x: MyDataset(os.path.join(dataset_path, x)) for x in ['train', 'val', 'test']}
     dataloader = {x: DataLoader(datasets[x], batch_size=32, shuffle=True) for x in ['train', 'val', 'test']}
     datasetSize = {x: len(datasets[x]) for x in ['train', 'val', 'test']}
-    '''
-    sum = 0
-    for i in range(20000):
-        sum += datasets['test'][i][1]
-    print(sum)'''

@@ -9,7 +9,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
 
-class Training:
+class Training(object):
     """训练模型"""
     def __init__(self, dataloader, datasetSize, model, loss_function, optimizer, lr_scheduler, gpu, epoches):
         """设置初始参数"""

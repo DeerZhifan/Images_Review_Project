@@ -6,7 +6,7 @@ import time
 import pytesseract
 
 
-class RecognitionEngine():
+class RecognitionEngine(object):
     """敏感信息识别引擎"""
     def __init__(self, img_name, sub_imgs, vocabulary_path):
         """初始化参数"""

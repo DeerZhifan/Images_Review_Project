@@ -21,6 +21,7 @@ setup(
         'numpy',
         'pandas',
         'PyMySQL',
+        'pycryptodome',
         'pyyaml',
         'pytorch',
         'torchvision',

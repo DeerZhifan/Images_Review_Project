@@ -6,7 +6,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
 
-class ClassificationEngine:
+class ClassificationEngine(object):
     """图片分类引擎"""
     def __init__(self, imgs_name, model_path):
         """初始化参数"""

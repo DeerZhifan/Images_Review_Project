@@ -5,7 +5,7 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 
-class Settings:
+class Settings(object):
     """设置参数"""
     def __init__(self):
         self.root = 'D:/work/large'

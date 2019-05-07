@@ -2,7 +2,7 @@
 import torchvision.models as models
 
 
-class Model:
+class Model(object):
     """加载PyTorch中的模型"""
 
     def vgg11(self):
