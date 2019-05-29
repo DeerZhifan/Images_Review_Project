@@ -97,7 +97,7 @@ class CreateTable(MySql):
         """图片审核表设计"""
         algo_images_review_project = Table("algo_images_review_project", self.metadata,
                                            Column("image_id", INTEGER, primary_key=True, autoincrement=True, comment="图片ID"),
-                                           Column("image_url", VARCHAR(200), nullable=False, comment="图片URL"),
+                                           Column("image_url", VARCHAR(200), nullable=False, unique=True, comment="图片URL"),
                                            Column("review_status", TINYINT(1), nullable=False, server_default="0", comment="图片审核状态：0未审核，1已审核"),
                                            Column("review_result", TINYINT(1), nullable=False, server_default="0", comment="图片审核结果：0不合规，1合规"),
                                            Column("create_time", DateTime, server_default=func.now(), comment="创建时间"),
@@ -122,10 +122,10 @@ if __name__ == "__main__":
     # 建表
     engine = CreateTable(key="algo_mysql")
     engine.create_table()
-    # engine.drop_table()
+    #engine.drop_table()
 
     # 测试插入数据
-
+    """
     engine = MySql(key='algo_mysql')
     model = engine.get_model()
     metadata = engine.get_metadata()
@@ -144,3 +144,4 @@ if __name__ == "__main__":
     algo_images_review_project = Table("algo_images_review_project", metadata, autoload=True)
     connect.execute(algo_images_review_project.insert(), test_list)
     session.close()
+    """
