@@ -122,10 +122,10 @@ if __name__ == "__main__":
     # 建表
     engine = CreateTable(key="algo_mysql")
     engine.create_table()
-    #engine.drop_table()
+    # engine.drop_table()
 
     # 测试插入数据
-    """
+
     engine = MySql(key='algo_mysql')
     model = engine.get_model()
     metadata = engine.get_metadata()
@@ -136,7 +136,9 @@ if __name__ == "__main__":
                  "https://pic.qipeipu.com/uploadpic/210576/3957d7fcf9aeca766907bcad146d2d60.jpg",
                  "https://pic.qipeipu.com/uploadpic/16861/4a5b06ddabf2c9006bb1ba21f5ade696.jpg",
                  "https://pic.qipeipu.com/uploadpic/210576/8ca4221d591853da687e925c78c54fef.jpg",
-                 "https://pic.qipeipu.com/uploadpic/210576/64fef0b2e9345b37b8a70af97f769f0c.jpg",]
+                 "https://pic.qipeipu.com/uploadpic/210576/64fef0b2e9345b37b8a70af97f769f0c.jpg",
+                 "https://pic.qipeipu.com/uploadpic/210576/64fef0c2f9345b37b8a70af97f769f0c.jpg",
+                 ""]
     for imageurl in imageurls:
         test_dict = {}
         test_dict["image_url"] = imageurl
@@ -144,4 +146,5 @@ if __name__ == "__main__":
     algo_images_review_project = Table("algo_images_review_project", metadata, autoload=True)
     connect.execute(algo_images_review_project.insert(), test_list)
     session.close()
-    """
+
+

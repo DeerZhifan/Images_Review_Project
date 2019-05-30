@@ -61,13 +61,19 @@ class ImageDownload(object):
             index += 1
         return imageurls
 
-    def __download_engine(self, imageid, imageurl):
+    def __download_engine(self, imageid, imageurl, run_cnt=0):
         """下载引擎"""
-        response = requests.get(imageurl)
-        if response.status_code == 200:
-            with open("{:}/{:}.jpg".format(self.imgs_path, imageid), "wb") as f:
-                f.write(response.content)
-                f.close()
+        if run_cnt <= 3:
+            try:
+                response = requests.get(imageurl)
+                if response.status_code == 200:
+                    with open("{:}/{:}.jpg".format(self.imgs_path, imageid), "wb") as f:
+                        f.write(response.content)
+                        f.close()
+            except:
+                run_cnt += 1
+                self.__download_engine(imageid, imageurl, run_cnt)
+        return None
 
     def download(self):
         """下载图片"""
