@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
-from algo.dataset import MyDataset
-from algo.settings import Settings
+from algo.kernal.dataset import MyDataset
+from algo.kernal.settings import Settings
 import os
 import time
 import copy

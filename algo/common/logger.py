@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from algo.setting import local_config
+from algo.common.setting import local_config
 
 import os
 import logging

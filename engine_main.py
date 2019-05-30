@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from algo.setting import local_config
-from algo.images_download import ImageDownload
-from algo.reviewresult_upload import ReviewResultUpload
-from algo.image_processing import ImageProcessing
-from algo.recognition_engine import RecognitionEngine
-from algo.dataset import MyDataset
-from algo.classification_engine import ClassificationEngine
-from algo.logger import log
+from algo.common.setting import local_config
+from algo.kernal.images_download import ImageDownload
+from algo.kernal.reviewresult_upload import ReviewResultUpload
+from algo.kernal.image_processing import ImageProcessing
+from algo.kernal.recognition_engine import RecognitionEngine
+from algo.kernal.dataset import MyDataset
+from algo.kernal.classification_engine import ClassificationEngine
+from algo.common.logger import log
 import os
 from torch.utils.data import DataLoader
 

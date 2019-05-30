@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from algo.dataset import MyDataset
+from algo.kernal.dataset import MyDataset
 import os
 import torch
 from torch.autograd import Variable

@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
-from algo.settings import Settings
-from algo.dataset import MyDataset
+from algo.kernal.settings import Settings
+from algo.kernal.dataset import MyDataset
 import os
 import torch
 from torch.autograd import Variable

@@ -1,4 +1,4 @@
-from algo.password import PassWord
+from algo.kernal.password import PassWord
 import os
 import yaml
 
@@ -26,7 +26,7 @@ def get_pyconfig_dict():
 
 def get_config(yaml_path):
     """将config.yaml的内容转换为字典"""
-    parent_path = os.path.dirname(os.path.dirname(__file__))
+    parent_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     setting_filename = os.path.join(parent_path + yaml_path)
     setting_dict = yaml.load(open(setting_filename, encoding="utf-8"))
     return setting_dict

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from algo.setting import pyconfig
+from algo.common.setting import pyconfig
 
 from sqlalchemy import create_engine
 from sqlalchemy import Column, DateTime, func
@@ -146,5 +146,7 @@ if __name__ == "__main__":
     algo_images_review_project = Table("algo_images_review_project", metadata, autoload=True)
     connect.execute(algo_images_review_project.insert(), test_list)
     session.close()
+
+
 
 

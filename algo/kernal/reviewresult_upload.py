@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from algo.db_setup import MySql
+from algo.kernal.db_setup import MySql
 import datetime
 from sqlalchemy import Table
 

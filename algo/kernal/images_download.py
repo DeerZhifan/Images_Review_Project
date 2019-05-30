@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from algo.setting import pyconfig
-from algo.setting import local_config
+from algo.common.setting import pyconfig
+from algo.common.setting import local_config
 
 import os
 import pymysql
@@ -12,7 +12,7 @@ class ImageDownload(object):
     """下载图片"""
     def __init__(self, key=None, database=None, user=None, password=None, host=None, port=None):
         """初始化数据库连接信息"""
-        parent_path = os.path.dirname(os.path.dirname(__file__))
+        parent_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
         self.imgs_path = os.path.join(parent_path, local_config["images_path"])
 
         if key is None:
