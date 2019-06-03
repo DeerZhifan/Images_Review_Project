@@ -32,11 +32,11 @@ class ClassificationEngine(object):
 
 
 if __name__ == '__main__':
-    imgs_path = '../images'
+    imgs_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images'
     imgs_name = os.listdir(imgs_path)
     if '.DS_Store' in imgs_name:
         imgs_name.remove('.DS_Store')
-    model_path = 'resnet18.model'
+    model_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\resources\\resnet18.model'
     datasets = MyDataset(imgs_path)
     dataloader = DataLoader(datasets, batch_size=1)
     engine = ClassificationEngine(imgs_name, model_path)
