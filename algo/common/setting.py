@@ -1,4 +1,4 @@
-from algo.kernal.password import PassWord
+from algo.common.password import PassWord
 import os
 import yaml
 

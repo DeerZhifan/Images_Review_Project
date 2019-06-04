@@ -6,6 +6,6 @@ logger: # 日志
   logger_name: my_logger
 
 # 文件信息
-images_path: images
+image_path: image
 model_path: resources/resnet18.model
 vocalbulary_path: resources/sensitive_vocabulary.txt
