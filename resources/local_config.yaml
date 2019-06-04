@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+# socket连接信息
+server:
+  host: localhost
+  port: 10002
+  max_listen: 100
+
 # 日志信息
 logger: # 日志
   log_path: /home/logs/btr-algorithm-python/imagesreview

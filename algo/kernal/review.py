@@ -53,33 +53,34 @@ class ImagesReview(object):
 
     def review(self):
         """审核器"""
-        log.info(">>>>>>>>>>>>>>>>>>>>图片审核<<<<<<<<<<<<<<<<<<<<")
-        log.info(">>>>>>>>>>>>>>>>>步骤1：图片分类<<<<<<<<<<<<<<<<<")
+        log.info(">>>>>>>>>>>>>>>>>>>图片审核<<<<<<<<<<<<<<<<<<<")
+        log.info(">>>>>>>>>>>>>>>>步骤1：图片分类<<<<<<<<<<<<<<<<")
         datasets = MyDataset(self.image_path)
         dataloader = DataLoader(datasets, batch_size=1)
         classification_engine = ClassificationEngine(self.image_name, self.model_path)
         classified_result = classification_engine.classifier(dataloader)
-        review_result = {}
-        log.info(">>>>>>>>>>>>>>>步骤2：敏感信息识别<<<<<<<<<<<<<<<<")
+        log.info(">>>>>>>>>>>>>>步骤2：敏感信息识别<<<<<<<<<<<<<<")
         for img_name, result in classified_result.items():
             if result == 0:
-                review_result[img_name] = result
+                review_result = result
             else:
                 img_path = os.path.join(self.image_path, img_name)
                 processing_engine = ImageProcessing(img_name, img_path)
                 sub_images = processing_engine.get_tailored_img()
                 recognition_engine = RecognitionEngine(img_name, sub_images, self.vocabulary_path)
-                review_result[img_name] = recognition_engine.recognizer()
-        log.info(">>>>>>>>>>>>>>>>>>>>审核结束<<<<<<<<<<<<<<<<<<<<")
+                review_result = recognition_engine.recognizer()
+        log.info(">>>>>>>>>>>>>>>>>>>审核结束<<<<<<<<<<<<<<<<<<<")
         self.images_delete()
         self.result_upload(review_result)
         log.info("图片审核算法执行完毕！")
+        return review_result
 
 
 if __name__ == '__main__':
-    image_url = "https://pic.qipeipu.com/uploadpic/210576/3957d7fcf9aeca766907bcad146d2d60.jpg"
+    image_url = "https://pic.qipeipu.com/uploadpic/16864/340d1ae2ee257201ad61890ee629ef1b.jpg"
     review_engine = ImagesReview(key="algo_mysql", image_url=image_url)
-    review_engine.review()
+    result = review_engine.review()
+    print(result)
 
 
 

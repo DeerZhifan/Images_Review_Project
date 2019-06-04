@@ -20,12 +20,11 @@ class ReviewResultUpload(object):
         session = engine.get_session()
         connect = engine.get_connection()
         algo_images_review_project = Table("algo_images_review_result", metadata, autoload=True)
-        for _, result in self.review_result.items():
-            result_dict = dict()
-            result_dict["image_url"] = self.image_url
-            result_dict["review_result"] = result
-            result_dict["update_time"] = datetime.datetime.now()
-            connect.execute(algo_images_review_project.insert(), result_dict)
+        result_dict = dict()
+        result_dict["image_url"] = self.image_url
+        result_dict["review_result"] = self.review_result
+        result_dict["update_time"] = datetime.datetime.now()
+        connect.execute(algo_images_review_project.insert(), result_dict)
 
         session.close()
         return None
