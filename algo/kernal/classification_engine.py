@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from algo.kernal.dataset import MyDataset
+from algo.common.setting import local_config
+from algo.common.logger import log
+
 import os
 import torch
 from torch.autograd import Variable
@@ -8,37 +11,42 @@ from torch.utils.data import DataLoader
 
 class ClassificationEngine(object):
     """图片分类引擎"""
-    def __init__(self, imgs_name, model_path):
+    def __init__(self, image_name, model_path):
         """初始化参数"""
-        self.imgs_name = imgs_name
+        self.image_name = image_name
         self.model_path = model_path
 
     def classifier(self, dataloader):
         """分类器"""
+        log.info("加载分类模型resnet18.model......")
         model = torch.load(self.model_path, map_location='cpu')
+        log.info("加载成功！")
         model.train(False)
         index = 0
         result = {}
+        log.info("开始分类......")
         for count, data in enumerate(dataloader):
             inputs, labels = data
             outputs = model(Variable(inputs))
             _, predictions = torch.max(outputs.data, 1)
             if predictions.item() == 0:
-                result[self.imgs_name[index]] = 0
+                result[self.image_name[index]] = 0
             else:
-                result[self.imgs_name[index]] = 1
+                result[self.image_name[index]] = 1
             index += 1
+        log.info("分类完毕！")
         return result
 
 
 if __name__ == '__main__':
-    imgs_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\images'
-    imgs_name = os.listdir(imgs_path)
-    if '.DS_Store' in imgs_name:
-        imgs_name.remove('.DS_Store')
-    model_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\resources\\resnet18.model'
-    datasets = MyDataset(imgs_path)
+    parent_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    image_path = os.path.join(parent_path, local_config["image_path"])
+    image_name = os.listdir(image_path)
+    if '.DS_Store' in image_name:
+        image_name.remove('.DS_Store')
+    model_path = os.path.join(parent_path, local_config["model_path"])
+    datasets = MyDataset(image_path)
     dataloader = DataLoader(datasets, batch_size=1)
-    engine = ClassificationEngine(imgs_name, model_path)
+    engine = ClassificationEngine(image_name, model_path)
     classified_result = engine.classifier(dataloader)
     print(classified_result)

@@ -29,10 +29,10 @@ class Main(object):
 
     def image_download(self):
         """下载图片"""
-        log.info("从数据库中下载待审核图片......")
+        log.info("启动图片下载引擎......")
         download_engine = ImageDownload(self.key)
         download_engine.download()
-        log.info("下载完毕！")
+        log.info("下载程序执行完毕！")
 
     def result_upload(self, review_result):
         """将审核结果上传至数据库"""
