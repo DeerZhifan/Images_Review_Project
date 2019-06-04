@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from algo.kernal.db_setup import MySql
-from algo.common.logger import log
 
 import datetime
 from sqlalchemy import Table
@@ -21,7 +20,6 @@ class ReviewResultUpload(object):
         session = engine.get_session()
         connect = engine.get_connection()
         algo_images_review_project = Table("algo_images_review_result", metadata, autoload=True)
-        log.info("开始将审核结果上传至数据库中......")
         for _, result in self.review_result.items():
             result_dict = dict()
             result_dict["image_url"] = self.image_url
@@ -30,7 +28,6 @@ class ReviewResultUpload(object):
             connect.execute(algo_images_review_project.insert(), result_dict)
 
         session.close()
-        log.info("上传成功！")
         return None
 
 
