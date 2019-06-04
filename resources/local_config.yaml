@@ -8,4 +8,4 @@ logger: # 日志
 # 文件信息
 image_path: image
 model_path: resources/resnet18.model
-vocalbulary_path: resources/sensitive_vocabulary.txt
+vocabulary_path: resources/sensitive_vocabulary.txt

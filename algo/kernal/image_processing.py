@@ -47,7 +47,7 @@ class ImageProcessing(object):
         return opened_img
 
     def get_closed_image(self):
-        """"""
+        """获取闭运算图片"""
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (20, 20))
         medianblur_img = self.get_medianblur_img()
         closed_img = cv2.morphologyEx(medianblur_img, cv2.MORPH_CLOSE, kernel)
