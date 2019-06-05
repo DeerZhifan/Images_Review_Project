@@ -70,7 +70,7 @@ class ServerThreading(threading.Thread):
         pass
 
     def run(self):
-        log.info("开启线程...")
+        log.info("开启线程......")
         try:
             # 接受数据
             msg = ''
@@ -85,9 +85,7 @@ class ServerThreading(threading.Thread):
                     msg = msg[:-4]
                     break
             # 解析json格式的数据
-            print(msg)
             dict_result = json.loads(msg)
-            print(dict_result)
             log.info("获取解析后的结果:{}".format(dict_result))
 
             # 算法逻辑
@@ -104,7 +102,7 @@ class ServerThreading(threading.Thread):
             pass
         finally:
             self._socket.close()
-        log.info("任务结束...")
+        log.info("任务结束......")
 
         pass
 
