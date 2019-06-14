@@ -24,10 +24,12 @@ class ImageDownload(object):
                         f.write(response.content)
                         f.close()
                         log.info("保存成功！")
+                        return True
             except:
                 run_cnt += 1
                 self.__download_engine(image_path, image_name, image_url, run_cnt)
-        return None
+        log.info("图片无法下载！")
+        return False
 
     def download(self):
         """下载图片"""
@@ -38,12 +40,13 @@ class ImageDownload(object):
         image_name = self.image_url[-9:-4]
         log.info("图片信息，image_url:{}".format(self.image_url))
         log.info("下载中......")
-        self.__download_engine(image_path, image_name, self.image_url)
-        return None
+        flag = self.__download_engine(image_path, image_name, self.image_url)
+        return flag
 
 
 if __name__ == "__main__":
-    image_url = "https://pic.qipeipu.com/uploadpic/234775/58cd2d6b76a06305813b76d1edc3fa86.jpg"
+    image_url = "https://test-pic.qipeipu.net/erp/10000/erpResource/pic/partsImage/325f75c0-4479-412a-8196-6bb0aac50f2d.jpg"
     download_engine = ImageDownload(image_url=image_url)
-    download_engine.download()
+    result = download_engine.download()
+    print(result)
 

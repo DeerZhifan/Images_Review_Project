@@ -26,7 +26,7 @@ class ImagesReview(object):
         self.model_path = os.path.join(parent_path, local_config["model_path"])
         self.vocabulary_path = os.path.join(parent_path, local_config["vocabulary_path"])
         log.info("初始化完毕！")
-        self.image_download()
+        self.flag = self.image_download()
         self.image_name = os.listdir(self.image_path)
 
     def image_download(self):
@@ -34,8 +34,12 @@ class ImagesReview(object):
         log.info(">>>>>>>>>>>>>>>>>>>图片下载<<<<<<<<<<<<<<<<<<<")
         log.info("启动图片下载引擎......")
         download_engine = ImageDownload(self.image_url)
-        download_engine.download()
-        log.info("下载程序执行完毕！")
+        flag = download_engine.download()
+        if flag:
+            log.info("下载程序执行完毕！")
+        else:
+            log.info("下载结束！")
+        return flag
 
     def result_upload(self, review_result):
         """将审核结果上传至数据库"""
@@ -54,30 +58,32 @@ class ImagesReview(object):
     def review(self):
         """审核器"""
         log.info(">>>>>>>>>>>>>>>>>>>图片审核<<<<<<<<<<<<<<<<<<<")
-        log.info(">>>>>>>>>>>>>>>>步骤1：图片分类<<<<<<<<<<<<<<<<")
-        datasets = MyDataset(self.image_path)
-        dataloader = DataLoader(datasets, batch_size=1)
-        classification_engine = ClassificationEngine(self.image_name, self.model_path)
-        classified_result = classification_engine.classifier(dataloader)
-        log.info(">>>>>>>>>>>>>>步骤2：敏感信息识别<<<<<<<<<<<<<<")
-        for img_name, result in classified_result.items():
-            if result == 0:
-                review_result = result
-            else:
-                img_path = os.path.join(self.image_path, img_name)
-                processing_engine = ImageProcessing(img_name, img_path)
-                sub_images = processing_engine.get_tailored_img()
-                recognition_engine = RecognitionEngine(img_name, sub_images, self.vocabulary_path)
-                review_result = recognition_engine.recognizer()
-        log.info(">>>>>>>>>>>>>>>>>>>审核结束<<<<<<<<<<<<<<<<<<<")
-        self.images_delete()
+        review_result = 0
+        if self.flag:
+            log.info(">>>>>>>>>>>>>>>>步骤1：图片分类<<<<<<<<<<<<<<<<")
+            datasets = MyDataset(self.image_path)
+            dataloader = DataLoader(datasets, batch_size=1)
+            classification_engine = ClassificationEngine(self.image_name, self.model_path)
+            classified_result = classification_engine.classifier(dataloader)
+            log.info(">>>>>>>>>>>>>>步骤2：敏感信息识别<<<<<<<<<<<<<<")
+            for img_name, result in classified_result.items():
+                if result == 0:
+                    review_result = result
+                else:
+                    img_path = os.path.join(self.image_path, img_name)
+                    processing_engine = ImageProcessing(img_name, img_path)
+                    sub_images = processing_engine.get_tailored_img()
+                    recognition_engine = RecognitionEngine(img_name, sub_images, self.vocabulary_path)
+                    review_result = recognition_engine.recognizer()
+            log.info(">>>>>>>>>>>>>>>>>>>审核结束<<<<<<<<<<<<<<<<<<<")
+            self.images_delete()
         self.result_upload(review_result)
         log.info("图片审核算法执行完毕！")
         return review_result
 
 
 if __name__ == '__main__':
-    image_url = "https://pic.qipeipu.com/uploadpic/16864/340d1ae2ee257201ad61890ee629ef1b.jpg"
+    image_url = "https://test-pic.qipeipu.net/erp/10000/erpResource/pic/partsImage/325f75c0-4479-412a-8196-6bb0aac50f2d.jpg"
     review_engine = ImagesReview(key="algo_mysql", image_url=image_url)
     result = review_engine.review()
     print(result)
