@@ -83,7 +83,7 @@ class ImagesReview(object):
 
 
 if __name__ == '__main__':
-    image_url = "https://test-pic.qipeipu.net/erp/10000/erpResource/pic/partsImage/325f75c0-4479-412a-8196-6bb0aac50f2d.jpg"
+    image_url = "https://pic.qipeipu.com/uploadpic/16864/3b6567c6434188aefb4ef565431c9729.jpg"
     review_engine = ImagesReview(key="algo_mysql", image_url=image_url)
     result = review_engine.review()
     print(result)
