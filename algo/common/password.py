@@ -27,3 +27,9 @@ class PassWord(object):
         decrypted_text = decrypted_text.decode(encoding='utf-8').rstrip()
         return decrypted_text
 
+
+if __name__ == "__main__":
+    engine = PassWord(public_key="abcdejas")
+    result = engine.encrypt_text('7XWxB36kHZbniTo')
+    print(result)
+
