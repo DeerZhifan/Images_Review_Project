@@ -27,7 +27,7 @@ class ImagesReview(object):
         self.vocabulary_path = os.path.join(parent_path, local_config["vocabulary_path"])
         log.info("初始化完毕！")
         self.flag = self.image_download()
-        self.image_name = os.listdir(self.image_path)
+        self.image_name = self.image_url[-9:]
 
     def image_download(self):
         """下载图片"""
@@ -51,8 +51,7 @@ class ImagesReview(object):
     def images_delete(self):
         """审核结束后删除图片"""
         log.info("删除已审核图片......")
-        for img_name in self.image_name:
-            os.remove(os.path.join(self.image_path, img_name))
+        os.remove(os.path.join(self.image_path, self.image_name))
         log.info("删除完毕！")
 
     def review(self):
@@ -61,7 +60,7 @@ class ImagesReview(object):
         review_result = 0
         if self.flag:
             log.info(">>>>>>>>>>>>>>>>步骤1：图片分类<<<<<<<<<<<<<<<<")
-            datasets = MyDataset(self.image_path)
+            datasets = MyDataset(self.image_path, self.image_name)
             dataloader = DataLoader(datasets, batch_size=1)
             classification_engine = ClassificationEngine(self.image_name, self.model_path)
             classified_result = classification_engine.classifier(dataloader)
@@ -83,7 +82,7 @@ class ImagesReview(object):
 
 
 if __name__ == '__main__':
-    image_url = "https://pic.qipeipu.com/uploadpic/16864/3b6567c6434188aefb4ef565431c9729.jpg"
+    image_url = "https://pic.qipeipu.com/uploadpic/16864/98571da8c295bd138e992d4a6623369a.jpg"
     review_engine = ImagesReview(key="algo_mysql", image_url=image_url)
     result = review_engine.review()
     print(result)

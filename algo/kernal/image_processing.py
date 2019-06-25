@@ -94,11 +94,11 @@ class ImageProcessing(object):
 
 
 if __name__ == '__main__':
-    img_name = '中网20.jpg'
-    img_path = '/users/vita/desktop/中网20.jpg'
+    img_name = 'f2c80.jpg'
+    img_path = 'C:\\Users\\ABC\\PycharmProjects\\Images_Review_Project\\image\\f2c80.jpg'
     engine = ImageProcessing(img_name, img_path)
     sub_imgs = engine.get_tailored_img()
     for img in sub_imgs[img_name]:
         print(type(img))
-        text = pytesseract.image_to_string(img, lang='chi_sim', config='-psm 6')
+        text = pytesseract.image_to_string(img, lang='chi_sim', config='--psm 6')
         print(text)

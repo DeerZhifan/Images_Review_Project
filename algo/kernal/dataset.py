@@ -7,12 +7,9 @@ from torch.utils.data import Dataset, DataLoader
 
 class MyDataset(Dataset):
     """重载Dataset，便于创建数据集"""
-    def __init__(self, root):
+    def __init__(self, root, image_name):
         """获取图片路径"""
-        self.img_names = os.listdir(root)
-        if '.DS_Store' in self.img_names:
-            self.img_names.remove('.DS_Store')
-        self.imgs = [os.path.join(root, imgName) for imgName in self.img_names]
+        self.imgs = [os.path.join(root, image_name)]
 
     def __getitem__(self, index):
         """为图片添加标签"""

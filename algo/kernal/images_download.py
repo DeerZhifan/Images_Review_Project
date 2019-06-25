@@ -17,7 +17,9 @@ class ImageDownload(object):
         if run_cnt <= 3:
             try:
                 response = requests.get(image_url)
-                if response.status_code == 200:
+                status_code = response.status_code
+                content_length = response.headers["Content-Length"]
+                if status_code == 200 and content_length != "0":
                     log.info("下载成功！")
                     log.info("保存图片......")
                     with open("{:}/{:}.jpg".format(image_path, image_name), "wb") as f:
@@ -45,7 +47,7 @@ class ImageDownload(object):
 
 
 if __name__ == "__main__":
-    image_url = "https://test-pic.qipeipu.net/erp/10000/erpResource/pic/partsImage/325f75c0-4479-412a-8196-6bb0aac50f2d.jpg"
+    image_url = "http://test-pic.qipeipu.net/erp/10000/erpResource/pic/partsImage/25ab0d60-b6b6-4528-94ff-709272739794.jpg"
     download_engine = ImageDownload(image_url=image_url)
     result = download_engine.download()
     print(result)

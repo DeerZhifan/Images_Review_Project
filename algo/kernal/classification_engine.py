@@ -22,7 +22,6 @@ class ClassificationEngine(object):
         model = torch.load(self.model_path, map_location='cpu')
         log.info("加载成功！")
         model.train(False)
-        index = 0
         result = {}
         log.info("开始分类......")
         for count, data in enumerate(dataloader):
@@ -30,10 +29,9 @@ class ClassificationEngine(object):
             outputs = model(Variable(inputs))
             _, predictions = torch.max(outputs.data, 1)
             if predictions.item() == 0:
-                result[self.image_name[index]] = 0
+                result[self.image_name] = 0
             else:
-                result[self.image_name[index]] = 1
-            index += 1
+                result[self.image_name] = 1
         log.info("分类完毕！")
         return result
 
@@ -46,6 +44,7 @@ if __name__ == '__main__':
         image_name.remove('.DS_Store')
     model_path = os.path.join(parent_path, local_config["model_path"])
     datasets = MyDataset(image_path)
+    print(datasets)
     dataloader = DataLoader(datasets, batch_size=1)
     engine = ClassificationEngine(image_name, model_path)
     classified_result = engine.classifier(dataloader)

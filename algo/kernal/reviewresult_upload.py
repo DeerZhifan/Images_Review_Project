@@ -50,7 +50,7 @@ class ReviewResultUpload(object):
 
 
 if __name__ == "__main__":
-    image_url = "http://test-pic.qipeipu.net/erp/10000/erpResource/pic/partsImage/25ab0d60-b6b6-4528-94ff-709272739794.jpg"
-    review_result = 1
+    image_url = "http://test-pic.qipeipu.net/erp/10000/erpResource/pic/partsImage/8c7a19fe-9404-4271-a201-aff28b579b35.png"
+    review_result = 0
     engine = ReviewResultUpload(image_url, review_result)
     engine.upload()
