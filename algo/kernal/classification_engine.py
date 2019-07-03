@@ -43,9 +43,10 @@ if __name__ == '__main__':
     if '.DS_Store' in image_name:
         image_name.remove('.DS_Store')
     model_path = os.path.join(parent_path, local_config["model_path"])
-    datasets = MyDataset(image_path)
-    print(datasets)
-    dataloader = DataLoader(datasets, batch_size=1)
-    engine = ClassificationEngine(image_name, model_path)
-    classified_result = engine.classifier(dataloader)
-    print(classified_result)
+    for name in image_name:
+        datasets = MyDataset(image_path, name)
+        print(datasets)
+        dataloader = DataLoader(datasets, batch_size=1)
+        engine = ClassificationEngine(name, model_path)
+        classified_result = engine.classifier(dataloader)
+        print(classified_result)
